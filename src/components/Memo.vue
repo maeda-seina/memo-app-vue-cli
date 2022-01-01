@@ -23,7 +23,7 @@
         <button class="btn btn-info m-2" @click="editMemo">Update</button>
         <button class="btn btn-info m-2" @click="deleteMemo">Delete</button>
         <transition name="del">
-          <button class="btn btn-info m-2" @click="editCancel">Cancel</button>
+          <button class="btn btn-info m-2" @click="cancel">Cancel</button>
         </transition>
       </div>
     </template>
@@ -44,13 +44,17 @@ export default {
   methods: {
     displayAddForm () {
       this.addFlag = true
+      this.editFlag = false
+      this.newMemo = ''
     },
     cancel () {
       this.addFlag = false
+      this.editFlag = false
+      this.newMemo = ''
     },
     addMemo () {
       this.memos.push(this.newMemo)
-      localStorage.setItem('memos', JSON.stringify(this.memos))
+      this.saveMemo()
       this.newMemo = ''
     },
     displayEditForm (index) {
@@ -61,23 +65,18 @@ export default {
     },
     editMemo () {
       this.memos.splice(this.editIndex, 1, this.newMemo)
-      localStorage.setItem('memos', JSON.stringify(this.memos))
-      this.newMemo = ''
-      this.addFlag = false
-      this.editFlag = false
-    },
-    editCancel () {
-      this.addFlag = false
-      this.editFlag = false
+      this.saveMemo()
+      this.cancel()
     },
     deleteMemo () {
       if (confirm('Are you sure?')) {
         this.memos.splice(this.editIndex, 1)
-        localStorage.setItem('memos', JSON.stringify(this.memos))
-        this.addFlag = false
-        this.editFlag = false
-        this.newMemo = ''
+        this.saveMemo()
+        this.cancel()
       }
+    },
+    saveMemo () {
+      localStorage.setItem('memos', JSON.stringify(this.memos))
     }
   },
   mounted () {
