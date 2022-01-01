@@ -5,6 +5,7 @@
         <span>{{ memo.split('\n')[0] }}</span>
       </li>
     </ul>
+<!--    addFlagとeditFlagともにfalseの時-->
     <template v-if="!addFlag && !editFlag">
       <span class="btn btn-info m-2" @click="displayAddForm">＋</span>
     </template>
@@ -74,9 +75,7 @@ export default {
     },
     saveMemo () {
       localStorage.setItem('memos', JSON.stringify(this.memos))
-      this.addFlag = false
-      this.editFlag = false
-      this.newMemo = ''
+      this.cancel()
     }
   },
   mounted () {
