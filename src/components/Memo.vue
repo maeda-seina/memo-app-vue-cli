@@ -55,7 +55,6 @@ export default {
     addMemo () {
       this.memos.push(this.newMemo)
       this.saveMemo()
-      this.newMemo = ''
     },
     displayEditForm (index) {
       this.editIndex = index
@@ -66,17 +65,18 @@ export default {
     editMemo () {
       this.memos.splice(this.editIndex, 1, this.newMemo)
       this.saveMemo()
-      this.cancel()
     },
     deleteMemo () {
       if (confirm('Are you sure?')) {
         this.memos.splice(this.editIndex, 1)
         this.saveMemo()
-        this.cancel()
       }
     },
     saveMemo () {
       localStorage.setItem('memos', JSON.stringify(this.memos))
+      this.addFlag = false
+      this.editFlag = false
+      this.newMemo = ''
     }
   },
   mounted () {
